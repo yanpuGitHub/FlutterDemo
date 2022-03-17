@@ -34,7 +34,7 @@ class _MyHomePage extends State<MyHomePage> {
             const Icon(Icons.accessibility_sharp),
             GestureDetector(
               child: const Text(
-                "点我跳转",
+                "赶紧点我",
                 style: TextStyle(fontSize: 22, color: Colors.deepOrangeAccent),
               ),
               onTap: () {

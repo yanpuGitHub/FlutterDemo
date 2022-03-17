@@ -1,29 +1,68 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-///state生命周期
+class CounterDisplay extends StatelessWidget {
+  const CounterDisplay({required this.count, Key? key}) : super(key: key);
 
-class CounterWidget extends StatefulWidget {
-  final int initValue;
-
-  const CounterWidget({Key? key, this.initValue = 0}) : super(key: key);
+  final int count;
 
   @override
-  State<StatefulWidget> createState() => _CounterWidgetState();
+  Widget build(BuildContext context) {
+    return Text('Count: $count');
+  }
 }
 
-class _CounterWidgetState extends State<CounterWidget> {
-  int _counter = 0;
+class CounterIncrementor extends StatelessWidget {
+  const CounterIncrementor({required this.onPressed, Key? key})
+      : super(key: key);
+
+  final VoidCallback onPressed;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _counter = widget.initValue;
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: const Text('Increment'),
+    );
+  }
+}
+
+class Counter extends StatefulWidget {
+  const Counter({Key? key}) : super(key: key);
+
+  @override
+  _CounterState createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  int _counter = 0;
+
+  void _increment() {
+    setState(() {
+      ++_counter;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        CounterIncrementor(onPressed: _increment),
+        CounterDisplay(count: _counter),
+        const Icon(Icons.print)
+      ],
+    );
   }
+}
+
+void main() {
+  runApp(
+    const MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Counter(),
+        ),
+      ),
+    ),
+  );
 }
