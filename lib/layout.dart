@@ -1,38 +1,96 @@
-import 'dart:math';
+import 'dart:ffi';
 
 import 'package:english_words/english_words.dart';
+import 'package:f_demo/shopping.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class WordPairDetail extends StatelessWidget {
+const _textStyle =
+    TextStyle(fontSize: 18, color: Colors.deepPurpleAccent, inherit: false);
+
+class WordPairDetail extends StatefulWidget {
   final WordPair pair;
 
   const WordPairDetail({Key? key, required this.pair}) : super(key: key);
 
-  final _textStyle =
-      const TextStyle(fontSize: 18, color: Colors.black, inherit: false);
+  @override
+  State<StatefulWidget> createState() => _WordPairDetail();
+}
+
+class _WordPairDetail extends State<WordPairDetail> {
+  String text = "";
+
+  @override
+  void initState() {
+    super.initState();
+    text = widget.pair.asPascalCase;
+  }
 
   void _click() {
     debugPrint("点我干哈");
+    setState(() {
+      text = "点我干哈";
+    });
+
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ShoppingListItem(
+              product: const Product(name: 'Chips'),
+              inCart: true,
+              onCartChanged: (product, inCart) {
+                debugPrint("${product.name}, $inCart");
+              },
+            )));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              textDirection: TextDirection.ltr,
-              children: [
-                TextBtn(click: _click, pair: "${pair.asPascalCase}1"),
-                TextBtn(click: _click, pair: "${pair.asPascalCase}2"),
-                TextBtn(click: _click, pair: "${pair.asPascalCase}3"),
-              ],
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle.dark,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            // decoration: const BoxDecoration(
+            //   gradient: LinearGradient(colors: [Colors.yellow, Colors.pink]),
+            // ),
+            color: Colors.pink,
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Image.asset("assets/images/back.png", width: 50, height: 30),
+                  const Text("这是啥啊")
+                ],
+              ),
             ),
-          ],
+          ),
+          preferredSize: const Size(double.infinity, 50),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                textDirection: TextDirection.ltr,
+                children: [
+                  TextBtn(click: _click, pair: "${text}1"),
+                  TextBtn(click: _click, pair: "${text}2"),
+                  TextBtn(click: _click, pair: "${text}3"),
+                ],
+              ),
+              const SizedBox(
+                height: 50,
+                width: 90,
+              ),
+              Image.asset("assets/images/111.png")
+            ],
+          ),
         ),
       ),
     );
@@ -56,8 +114,7 @@ class TextBtn extends StatelessWidget {
         child: Center(
           child: Text(
             pair,
-            style: const TextStyle(
-                fontSize: 18, color: Colors.black, inherit: false),
+            style: _textStyle,
           ),
         ),
       ),
