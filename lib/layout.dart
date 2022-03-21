@@ -18,9 +18,6 @@ class WordPairDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(pair.asPascalCase, style: _textStyle),
-      // ),
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
@@ -64,10 +61,7 @@ class TextBtn extends StatelessWidget {
           ),
         ),
       ),
-      onTap: click /*() {
-        debugPrint("点我干哈");
-      }*/
-      ,
+      onTap: click,
     );
   }
 }
