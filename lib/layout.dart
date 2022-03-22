@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
 import 'package:english_words/english_words.dart';
-import 'package:f_demo/shopping.dart';
+import 'package:f_demo/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,6 +19,7 @@ class WordPairDetail extends StatefulWidget {
 
 class _WordPairDetail extends State<WordPairDetail> {
   String text = "";
+  bool isVisibility = true;
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _WordPairDetail extends State<WordPairDetail> {
     setState(() {
       text = "点我干哈";
     });
+    isVisibility = false;
 
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => ShoppingListItem(
@@ -80,7 +82,10 @@ class _WordPairDetail extends State<WordPairDetail> {
                 textDirection: TextDirection.ltr,
                 children: [
                   TextBtn(click: _click, pair: "${text}1"),
-                  TextBtn(click: _click, pair: "${text}2"),
+                  Visibility(
+                    child: TextBtn(click: _click, pair: "${text}2"),
+                    visible: isVisibility,
+                  ),
                   TextBtn(click: _click, pair: "${text}3"),
                 ],
               ),
