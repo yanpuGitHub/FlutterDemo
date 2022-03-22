@@ -35,13 +35,7 @@ class _WordPairDetail extends State<WordPairDetail> {
     isVisibility = false;
 
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ShoppingListItem(
-              product: const Product(name: 'Chips'),
-              inCart: true,
-              onCartChanged: (product, inCart) {
-                debugPrint("${product.name}, $inCart");
-              },
-            )));
+        builder: (context) => const LoginActivity()));
   }
 
   @override
