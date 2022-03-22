@@ -108,9 +108,30 @@ class TextBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.yellow[900]!,
+            width: 0.5,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          // 生成俩层阴影，一层绿，一层黄， 阴影位置由offset决定,
+          // 阴影模糊层度由blurRadius大小决定（大就更透明更扩散），
+          // 阴影模糊大小由spreadRadius决定
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.yellow,
+              offset: Offset(5.0, 5.0),
+              blurRadius: 10.0,
+              spreadRadius: 2.0,
+            ),
+            BoxShadow(
+              color: Colors.greenAccent,
+              offset: Offset(1.0, 1.0),
+            ),
+          ],
+        ),
         height: 50,
         padding: const EdgeInsets.only(left: 8, right: 8),
-        color: Colors.amber,
         child: Center(
           child: Text(
             pair,
