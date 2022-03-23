@@ -35,7 +35,7 @@ class _WordPairDetail extends State<WordPairDetail> {
     isVisibility = false;
 
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const LoginActivity()));
+        builder: (context) => const LoginActivity(phone: "")));
   }
 
   @override
