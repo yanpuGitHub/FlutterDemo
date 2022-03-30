@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 typedef inA = bool Function();
 
 String a = "";
-/// 测试git回退版本1
+/// 测试git回退版本1 回退合并的分支代码1
 bool isNoble() => true;
 /// 测试git回退版本2
 void main() => runApp(const MyPage());
