@@ -5,7 +5,7 @@ typedef inA = bool Function();
 String a = "";
 /// 测试git回退版本1
 bool isNoble() => true;
-/// 测试git回退版本2
+/// 测试git回退版本2,覆盖
 void main() => runApp(const MyPage());
 
 class MyPage extends StatelessWidget {
