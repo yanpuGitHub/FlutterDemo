@@ -90,6 +90,7 @@ class _LoginActivity extends State<LoginActivity> with WidgetsBindingObserver {
       controller: phoneController,
       autocorrect: false,
       autofocus: true,
+      obscuringCharacter: "*",
       onChanged: (text) {
         debugPrint("输入：$text");
         // _splitPhoneNumber(text);
@@ -101,6 +102,7 @@ class _LoginActivity extends State<LoginActivity> with WidgetsBindingObserver {
       inputFormatters: [
         LengthLimitingTextInputFormatter(13),
       ],
+      // maxLength: 13,
       cursorColor: Colors.red,
       keyboardType: TextInputType.phone,
       textInputAction: TextInputAction.next,
@@ -128,7 +130,7 @@ class _LoginActivity extends State<LoginActivity> with WidgetsBindingObserver {
                     color: MyColors.color99,
                   ))),
           // 当有maxLength时，这个设置counter: Text("")可以去除右下角的计数器
-          counterText: "",
+          // counterText: "",
           hintText: "点击输入11位手机号",
           hintStyle: const TextStyle(fontSize: 17, color: MyColors.color99)),
     );
