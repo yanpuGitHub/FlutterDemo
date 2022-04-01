@@ -6,6 +6,7 @@ import 'package:f_demo/refresh_list2.dart';
 import 'package:f_demo/res/my_color.dart';
 import 'package:f_demo/res/my_string.dart';
 import 'package:f_demo/text_field.dart';
+import 'package:f_demo/uitls/time.dart';
 import 'package:f_demo/view/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,6 +63,8 @@ class _WordPairDetail extends State<WordPairDetail>
 
   void _click3() {
     animationController.reverse();
+    String time = TimeUtil.basePrettyTime(1648707402000);
+    debugPrint("时间 = $time");
   }
 
   late Animation<double> animation;
