@@ -39,6 +39,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   english_words: ^4.0.0
   intl: ^0.17.0
+  # 下拉刷新上拉加载 https://pub.dev/packages/pull_to_refresh/install
+  pull_to_refresh: ^2.0.0
+  fluttertoast: ^8.0.9
+#  expandable_text: ^1.3.2
 
 dev_dependencies:
   flutter_test:

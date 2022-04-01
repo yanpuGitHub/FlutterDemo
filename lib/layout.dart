@@ -1,7 +1,12 @@
 import 'dart:ffi';
 
 import 'package:english_words/english_words.dart';
+import 'package:f_demo/refresh_list.dart';
+import 'package:f_demo/refresh_list2.dart';
+import 'package:f_demo/res/my_color.dart';
+import 'package:f_demo/res/my_string.dart';
 import 'package:f_demo/text_field.dart';
+import 'package:f_demo/view/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,7 +22,8 @@ class WordPairDetail extends StatefulWidget {
   State<StatefulWidget> createState() => _WordPairDetail();
 }
 
-class _WordPairDetail extends State<WordPairDetail> {
+class _WordPairDetail extends State<WordPairDetail>
+    with SingleTickerProviderStateMixin {
   String text = "";
   bool isVisibility = true;
 
@@ -25,6 +31,11 @@ class _WordPairDetail extends State<WordPairDetail> {
   void initState() {
     super.initState();
     text = widget.pair.asPascalCase;
+
+    animationController = AnimationController(
+        value: 0, duration: const Duration(milliseconds: 1500), vsync: this);
+    animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
+    // animationController.forward();
   }
 
   void _click() {
@@ -37,6 +48,26 @@ class _WordPairDetail extends State<WordPairDetail> {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const LoginActivity(phone: "")));
   }
+
+  void _click2() {
+    debugPrint("点我干哈");
+    setState(() {
+      text = "点我干哈";
+    });
+    isVisibility = false;
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const RefreshList()));
+  }
+
+  void _click3() {
+    animationController.reverse();
+  }
+
+  late Animation<double> animation;
+  late AnimationController animationController;
+
+  bool isShow = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +106,10 @@ class _WordPairDetail extends State<WordPairDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 textDirection: TextDirection.ltr,
                 children: [
-                  TextBtn(click: _click, pair: "${text}1"),
+                  TextBtn(click: _click2, pair: "${text}1"),
                   Visibility(
-                    child: TextBtn(click: _click, pair: "${text}2"),
-                    visible: isVisibility,
+                    child: TextBtn(click: _click3, pair: "${text}2"),
+                    visible: true,
                   ),
                   TextBtn(click: _click, pair: "${text}3"),
                 ],
@@ -87,7 +118,34 @@ class _WordPairDetail extends State<WordPairDetail> {
                 height: 50,
                 width: 90,
               ),
-              Image.asset("assets/images/111.png")
+              Image.asset("assets/images/111.png"),
+              const SizedBox(
+                height: 20,
+              ),
+              const ExpandableText(MyStrings.str,
+                  expandText: "展开", maxLines: 2, linkColor: Colors.blue),
+              FadeTransition(
+                opacity: animation,
+                child: const Text(
+                  "怎么没有透明动画",
+                  style: TextStyle(
+                      inherit: false,
+                      fontSize: 16,
+                      color: MyColors.colorD93639),
+                ),
+              ),
+              TextButton(
+                  onPressed: () {
+                    setState(() {
+                      isShow = true;
+                    });
+                    animationController.forward();
+                  },
+                  child: const Text("开始",
+                      style: TextStyle(
+                          inherit: false,
+                          fontSize: 16,
+                          color: MyColors.colorD93639)))
             ],
           ),
         ),
