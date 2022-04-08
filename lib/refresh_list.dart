@@ -123,7 +123,7 @@ class _RefreshList extends State<RefreshList>
       home: Container(
         constraints: const BoxConstraints.expand(),
         height: double.infinity,
-        color: Colors.white,
+        color: Colors.transparent,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -181,35 +181,51 @@ class _RefreshList extends State<RefreshList>
                       ),
                     ),
                     titleSpacing: 0,
-                    backgroundColor: Colors.transparent,
+                    backgroundColor: const Color.fromARGB(0, 255, 255, 255),
                     shadowColor: Colors.transparent,
                     actions: [
                       Opacity(
                         opacity: alpha,
                         child: GestureDetector(
+                          onTap: () {},
                           child: Center(
                             heightFactor: 1,
-                            child: isAttention
-                                ? Container(
-                                    height: 24,
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    decoration: BoxDecoration(
-                                        color: Colors.red.shade400,
-                                        borderRadius:
-                                            BorderRadius.circular(24)),
-                                    child: const Text(
-                                      "+ 关注",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 14),
+                            child: Container(
+                              height: 24,
+                              alignment: Alignment.center,
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              decoration: BoxDecoration(
+                                  color: isAttention
+                                      ? Colors.transparent
+                                      : Colors.red.shade400,
+                                  borderRadius: BorderRadius.circular(24)),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Text(
+                                    isAttention ? "已关注" : "+ 关注",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 14),
+                                  ),
+                                  Container(
+                                    width: 18,
+                                    height: 18,
+                                    child: const CircularProgressIndicator(
+                                      backgroundColor: Colors.white,
+                                      strokeWidth: 1.0,
+                                      valueColor:
+                                      AlwaysStoppedAnimation(Colors.red),
                                     ),
                                   )
-                                : const Text(
-                                    "已关注",
-                                    style: TextStyle(
-                                        color: Colors.white38, fontSize: 14),
-                                  ),
+                                ],
+                              ),
+                            ),
+                            // : const Text(
+                            //     "已关注",
+                            //     style: TextStyle(
+                            //         color: Colors.white38, fontSize: 14),
+                            //   ),
                           ),
                         ),
                       ),
@@ -423,11 +439,10 @@ class _RefreshList extends State<RefreshList>
                                           width: double.infinity,
                                           margin: const EdgeInsets.only(
                                               left: 16, right: 16),
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: MyColors.colorEe,
-                                                    width: 0.5)),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: MyColors.colorEe,
+                                                width: 0.5),
                                           ),
                                         )
                                       ],

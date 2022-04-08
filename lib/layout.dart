@@ -6,6 +6,8 @@ import 'package:f_demo/refresh_list2.dart';
 import 'package:f_demo/res/my_color.dart';
 import 'package:f_demo/res/my_string.dart';
 import 'package:f_demo/text_field.dart';
+import 'package:f_demo/uitls/num_util.dart';
+import 'package:f_demo/uitls/shared_preferences.dart';
 import 'package:f_demo/uitls/time.dart';
 import 'package:f_demo/view/expandable.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,10 @@ class _WordPairDetail extends State<WordPairDetail>
     with SingleTickerProviderStateMixin {
   String text = "";
   bool isVisibility = true;
+  /// 标题栏key
+  GlobalKey headerKey = GlobalKey();
+
+  var map = {"title":"这是标题", "name":"名称"};
 
   @override
   void initState() {
@@ -50,12 +56,16 @@ class _WordPairDetail extends State<WordPairDetail>
         builder: (context) => const LoginActivity(phone: "")));
   }
 
-  void _click2() {
+  void _click2() async{
     debugPrint("点我干哈");
     setState(() {
       text = "点我干哈";
     });
     isVisibility = false;
+    var value= await SpUtil.instance.getString("name");
+    debugPrint("name=$value");
+
+
 
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const RefreshList()));
@@ -65,6 +75,11 @@ class _WordPairDetail extends State<WordPairDetail>
     animationController.reverse();
     String time = TimeUtil.basePrettyTime(1648707402000);
     debugPrint("时间 = $time");
+    debugPrint("数据 = ${NumUtil.intCount2Str(1)}");
+    addParams(map);
+    SpUtil.instance.setString("name", "真的是张三？");
+
+    TimeUtil.betweenDay(1648707402000, DateTime.now().millisecondsSinceEpoch);
   }
 
   late Animation<double> animation;
@@ -74,27 +89,23 @@ class _WordPairDetail extends State<WordPairDetail>
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(("状态栏高度=${MediaQuery.of(context).padding.top}"));
     return AnnotatedRegion(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.yellow,
         appBar: PreferredSize(
-          child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            // decoration: const BoxDecoration(
-            //   gradient: LinearGradient(colors: [Colors.yellow, Colors.pink]),
-            // ),
-            color: Colors.pink,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Image.asset("assets/images/back.png", width: 50, height: 30),
-                  const Text("这是啥啊")
-                ],
-              ),
-            ),
+          child: AppBar(
+            key: headerKey,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            title: const Text("我是标题", style: TextStyle(fontSize: 16, color: Colors.black),),
+            foregroundColor: Colors.green,
+            actions: const [
+              Text("右侧图标颜色？", style: TextStyle(fontSize: 16, color: Colors.white),),
+              Icon(Icons.share)
+            ],
+            toolbarOpacity: 1.0,
           ),
           preferredSize: const Size(double.infinity, 50),
         ),
@@ -125,8 +136,16 @@ class _WordPairDetail extends State<WordPairDetail>
               const SizedBox(
                 height: 20,
               ),
-              const ExpandableText(MyStrings.str,
-                  expandText: "展开", maxLines: 2, linkColor: Colors.blue),
+              Container(
+                color: Colors.white,
+                padding: const EdgeInsets.only(top: 8, bottom: 21),
+                child: const ExpandableText(MyStrings.str,
+                    expandText: "展开", maxLines: 2, linkColor: Colors.blue, style: TextStyle(
+                        inherit: false,
+                        fontSize: 12,
+                        color: MyColors.color99,
+                        height: 1.3)),
+              ),
               FadeTransition(
                 opacity: animation,
                 child: const Text(
@@ -143,17 +162,35 @@ class _WordPairDetail extends State<WordPairDetail>
                       isShow = true;
                     });
                     animationController.forward();
+                    debugPrint("appbar高度=${headerKey.currentContext?.size?.height ?? 0}");
+                    headerKey.currentContext?.size?.height ?? 0;
                   },
                   child: const Text("开始",
                       style: TextStyle(
                           inherit: false,
                           fontSize: 16,
-                          color: MyColors.colorD93639)))
+                          color: MyColors.colorD93639))),
+              Container(
+                width: 10,
+                height: 10,
+                child: const CircularProgressIndicator(
+                  backgroundColor: Colors.white,
+                  strokeWidth: 1.0,
+                  valueColor: AlwaysStoppedAnimation(Colors.red),
+                ),
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+
+  void addParams(Map<String, Object> params){
+    params["age"]="年龄12";
+    params["sex"]="性别男";
+    debugPrint("map=$params");
   }
 }
 
