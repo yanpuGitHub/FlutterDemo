@@ -1,14 +1,18 @@
 import 'dart:io';
 
+import 'package:f_demo/router/routers.dart';
+import 'package:f_demo/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'list.dart';
 
 void main() {
   runApp(const MyApp());
-  if(Platform.isAndroid){
-      SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  if (Platform.isAndroid) {
+    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
 
@@ -17,10 +21,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, WidgetBuilder> routerMap = {};
+    MyRouters.configureRoutes(routerMap);
+    print("routerMap$routerMap");
     return MaterialApp(
       title: "flutter跳转",
       theme: ThemeData(primaryColor: Colors.deepOrange),
       home: const MyHomePage(),
+      routes: routerMap,
     );
   }
 }
@@ -33,10 +41,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePage extends State<MyHomePage> {
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+
+    return MaterialApp(
+      home: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -47,8 +57,7 @@ class _MyHomePage extends State<MyHomePage> {
                 style: TextStyle(fontSize: 22, color: Colors.deepOrangeAccent),
               ),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const RandomWords()));
+                Navigator.of(context).pushNamed("main_home");
               },
             ),
           ],

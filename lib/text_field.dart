@@ -4,7 +4,7 @@ import 'package:f_demo/view/check_text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
 
 import 'res/my_string.dart';
 
@@ -189,7 +189,7 @@ class _LoginActivity extends State<LoginActivity> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     // GalleryLocalizations.
-    GalleryLocalizations.of(context);
+    // GalleryLocalizations.of(context);
     return MaterialApp(
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
