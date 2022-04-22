@@ -10,6 +10,7 @@ import 'package:f_demo/uitls/num_util.dart';
 import 'package:f_demo/uitls/shared_preferences.dart';
 import 'package:f_demo/uitls/time.dart';
 import 'package:f_demo/view/expandable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -90,6 +91,9 @@ class _WordPairDetail extends State<WordPairDetail>
   @override
   Widget build(BuildContext context) {
     debugPrint(("状态栏高度=${MediaQuery.of(context).padding.top}"));
+    // AppLocalizations.of();
+    // final app = AppLocalizations.of();
+
     return AnnotatedRegion(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
@@ -109,77 +113,92 @@ class _WordPairDetail extends State<WordPairDetail>
           ),
           preferredSize: const Size(double.infinity, 50),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                textDirection: TextDirection.ltr,
-                children: [
-                  TextBtn(click: _click2, pair: "${text}1"),
-                  Visibility(
-                    child: TextBtn(click: _click3, pair: "${text}2"),
-                    visible: true,
-                  ),
-                  TextBtn(click: _click, pair: "${text}3"),
-                ],
-              ),
-              const SizedBox(
-                height: 50,
-                width: 90,
-              ),
-              Image.asset("assets/images/111.png"),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                color: Colors.white,
-                padding: const EdgeInsets.only(top: 8, bottom: 21),
-                child: const ExpandableText(MyStrings.str,
-                    expandText: "展开", maxLines: 2, linkColor: Colors.blue, style: TextStyle(
-                        inherit: false,
-                        fontSize: 12,
-                        color: MyColors.color99,
-                        height: 1.3)),
-              ),
-              FadeTransition(
-                opacity: animation,
-                child: const Text(
-                  "怎么没有透明动画",
-                  style: TextStyle(
-                      inherit: false,
-                      fontSize: 16,
-                      color: MyColors.colorD93639),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              TextButton(
-                  onPressed: () {
-                    setState(() {
-                      isShow = true;
-                    });
-                    animationController.forward();
-                    debugPrint("appbar高度=${headerKey.currentContext?.size?.height ?? 0}");
-                    headerKey.currentContext?.size?.height ?? 0;
-                  },
-                  child: const Text("开始",
-                      style: TextStyle(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  textDirection: TextDirection.ltr,
+                  children: [
+                    TextBtn(click: _click2, pair: "${text}1"),
+                    Visibility(
+                      child: TextBtn(click: _click3, pair: "${text}2"),
+                      visible: true,
+                    ),
+                    TextBtn(click: _click, pair: "${text}3"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 50,
+                  width: 90,
+                ),
+                Image.asset("assets/images/111.png"),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(top: 8, bottom: 21),
+                  child: const ExpandableText(MyStrings.str,
+                      expandText: "展开", maxLines: 2, linkColor: Colors.blue, style: TextStyle(
                           inherit: false,
-                          fontSize: 16,
-                          color: MyColors.colorD93639))),
-              Container(
-                width: 10,
-                height: 10,
-                child: const CircularProgressIndicator(
-                  backgroundColor: Colors.white,
-                  strokeWidth: 1.0,
-                  valueColor: AlwaysStoppedAnimation(Colors.red),
+                          fontSize: 12,
+                          color: MyColors.color99,
+                          height: 1.3)),
                 ),
-              )
-            ],
+                FadeTransition(
+                  opacity: animation,
+                  child: const Text(
+                    "AppLocalizations.of(context)",
+                    style: TextStyle(
+                        inherit: false,
+                        fontSize: 16,
+                        color: MyColors.colorD93639),
+                  ),
+                ),
+                TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isShow = true;
+                      });
+                      animationController.forward();
+                      debugPrint("appbar高度=${headerKey.currentContext?.size?.height ?? 0}");
+                      headerKey.currentContext?.size?.height ?? 0;
+                    },
+                    child: const Text("开始",
+                        style: TextStyle(
+                            inherit: false,
+                            fontSize: 16,
+                            color: MyColors.colorD93639))),
+                Container(
+                  width: 10,
+                  height: 10,
+                  child: const CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                    strokeWidth: 1.0,
+                    valueColor: AlwaysStoppedAnimation(Colors.red),
+                  ),
+                ),
+                Padding(padding: const EdgeInsets.all(20),
+                child: CupertinoTextField(
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.phone,
+                  placeholder: "输入提示音",
+                  scrollPadding: EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.amberAccent, width: 1),
+                    borderRadius: const BorderRadius.all(Radius.circular(12))
+                  ),
+                  clearButtonMode: OverlayVisibilityMode.editing,
+                  textAlignVertical: TextAlignVertical.center,
+                ),)
+              ],
+            ),
           ),
         ),
       ),
