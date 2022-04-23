@@ -63,7 +63,7 @@ class _WordPairDetail extends State<WordPairDetail>
       text = "点我干哈";
     });
     isVisibility = false;
-    var value= await SpUtil.instance.getString("name");
+    var value= SpUtil.getString("name");
     debugPrint("name=$value");
 
 
@@ -78,7 +78,7 @@ class _WordPairDetail extends State<WordPairDetail>
     debugPrint("时间 = $time");
     debugPrint("数据 = ${NumUtil.intCount2Str(1)}");
     addParams(map);
-    SpUtil.instance.setString("name", "真的是张三？");
+    SpUtil.saveString("name", "真的是张三？");
 
     TimeUtil.betweenDay(1648707402000, DateTime.now().millisecondsSinceEpoch);
   }

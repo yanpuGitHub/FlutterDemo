@@ -52,4 +52,15 @@ class TimeUtil {
     debugPrint("day=$day");
     return day;
   }
+
+  /// 格式化时间
+  static String formatTime(int milliseconds, {String temp = "yyyy-MM-dd"}){
+    return  DateFormat(temp).format(DateTime.fromMillisecondsSinceEpoch(milliseconds));
+  }
+
+  static String todayTime({String temp = "yyyy-MM-dd"}){
+    return  DateFormat(temp).format(DateTime.now());
+  }
 }
+
+const String date1 = "yyyy-MM-dd HH:mm:ss";
