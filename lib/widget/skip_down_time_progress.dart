@@ -1,0 +1,124 @@
+import 'package:flutter/material.dart';
+import 'dart:math' as math;
+
+class SkipDownTimeProgress extends StatefulWidget {
+  const SkipDownTimeProgress(
+      {Key? key,
+      this.color = Colors.red,
+      this.radius = 22,
+      this.duration,
+      this.size = const Size(25.0, 25.0),
+      this.skipText = "跳过",
+      this.onTap,
+      this.onFinishCallback})
+      : super(key: key);
+
+  final Color color;
+  final double radius;
+  final Duration? duration;
+  final Size size;
+  final String skipText;
+  final GestureTapCallback? onTap;
+  final onFinishCallback;
+
+  @override
+  State<SkipDownTimeProgress> createState() => _SkipDownTimeProgress();
+}
+
+class _SkipDownTimeProgress extends State<SkipDownTimeProgress>
+    with TickerProviderStateMixin {
+  late Animation<double> _animation;
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: widget.duration);
+    _animation = Tween(begin: 360.0, end: 0.0).animate(_controller)
+      ..addListener(() {
+        if (mounted) {
+          setState(() {});
+        }
+      })
+      ..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          widget.onFinishCallback(true);
+        }
+      });
+    _controller.forward().orCancel;
+  }
+
+  @override
+  void didUpdateWidget(covariant SkipDownTimeProgress oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: CustomPaint(
+        painter:
+            _DrawProgress(widget.color, widget.radius, angle: _animation.value),
+        size: widget.size,
+        child: Center(
+          child: Text(
+            widget.skipText,
+            style: const TextStyle(
+                inherit: false,
+                fontSize: 13.5,
+                color: Colors.green,
+                decoration: TextDecoration.none),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DrawProgress extends CustomPainter {
+  final Color color;
+  final double radius;
+  double? angle;
+  final AnimationController? animation;
+  final Paint circleFillPaint;
+  final Paint progressPaint;
+
+  _DrawProgress(this.color, this.radius, {this.angle, this.animation})
+      : circleFillPaint = Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.fill,
+        progressPaint = Paint()
+          ..color = color
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = 4.0 {
+    if (null != animation && !animation!.isAnimating) {
+      animation!.forward();
+    }
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    double x = size.width / 2;
+    double y = size.height / 2;
+    Offset center = Offset(x, y);
+    canvas.drawCircle(center, radius - 2, circleFillPaint);
+    Rect rect = Rect.fromCircle(center: center, radius: radius);
+    angle = (angle! * (-1));
+    double startAngle = -math.pi / 2;
+    double sweepAngle = math.pi * angle! / 180;
+    Path path = Path();
+    path.arcTo(rect, startAngle, sweepAngle, true);
+    canvas.drawPath(path, progressPaint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}

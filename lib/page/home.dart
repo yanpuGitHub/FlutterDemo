@@ -1,10 +1,16 @@
 import 'dart:convert';
 
+import 'package:f_demo/res/my_string.dart';
 import 'package:f_demo/uitls/log.dart';
 import 'package:f_demo/uitls/shared_preferences.dart';
 import 'package:f_demo/uitls/time.dart';
+import 'package:f_demo/view/expandable.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:synchronized/synchronized.dart';
+
+import '../router/router_constant.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,10 +25,14 @@ class _HomePage extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    debugPrint("instate: home");
+  }
 
-    L.d(DateTime.now().millisecondsSinceEpoch, tag: "开始时间");
-    L.d(SpUtil.getString("count_key"), tag: "value");
-    L.d(DateTime.now().millisecondsSinceEpoch, tag: "方法后面的时间");
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _gestureRecognizer.dispose();
   }
 
   @override
@@ -45,6 +55,7 @@ class _HomePage extends State<HomePage> {
               onPressed: () {
                 testClick("一号点击");
                 thread();
+                Navigator.of(context).pushNamed(RouterPath.providerFather);
               },
               child: const Text(
                 "多线程点击",
@@ -86,11 +97,55 @@ class _HomePage extends State<HomePage> {
             Text(str,
                 style: const TextStyle(
                     inherit: false, fontSize: 18, color: Colors.black)),
+            Text.rich(
+              TextSpan(children: [
+                const TextSpan(text: "测试："),
+                TextSpan(
+                    text: text,
+                    style: TextStyle(
+                        color: changeColor ? Colors.red : Colors.blue),
+                    recognizer: _gestureRecognizer
+                      ..onTap = () {
+                        setState(() {
+                          text = "点你怎么拉";
+                        });
+                      }),
+                TextSpan(
+                    text: "你点我干嘛",
+                    style: TextStyle(
+                        color: changeColor ? Colors.blue : Colors.yellow),
+                    recognizer: _gestureRecognizer
+                      ..onTap = () {
+                        setState(() {
+                          text = "就是要点你！";
+                          changeColor = !changeColor;
+                        });
+                      }),
+              ]),
+              textDirection: TextDirection.rtl,
+            ),
+             ExpandableText(
+              MyStrings.str,
+              expandText: "展开",
+              maxLines: 1,
+              linkStyle: const TextStyle(color: Colors.red),
+              collapseText: "收起",
+              onPrefixTap: (){
+                  Fluttertoast.showToast(msg: "点我干嘛");
+              },
+              prefixText: "嗯？这是什么",
+              prefixStyle: const TextStyle(color: Colors.yellow),
+            )
           ],
         ),
       ),
     );
   }
+
+  final TapGestureRecognizer _gestureRecognizer = TapGestureRecognizer();
+
+  bool changeColor = false;
+  String text = "你点我啊";
 
   String str = "";
 
@@ -149,8 +204,10 @@ class _HomePage extends State<HomePage> {
       return e.name;
     }).toList();
     L.d("toList----m2------结束");
-    var fold = m.fold<int>(3, (previousValue, element) => previousValue + element);
-    var fold2 = m2.fold<String>("咦~这是谁啊！！！", (previousValue, element) => "$previousValue和$element");
+    var fold =
+        m.fold<int>(3, (previousValue, element) => previousValue + element);
+    var fold2 = m2.fold<String>(
+        "咦~这是谁啊！！！", (previousValue, element) => "$previousValue和$element");
     L.d("m =$m, $fold");
     L.d("m2 =$m2, $fold2");
   }
@@ -175,14 +232,12 @@ class _HomePage extends State<HomePage> {
   int count = 0;
 
   void testClick(String tag) {
-    L.d("$count   data=${TimeUtil.todayTime(temp: date1)}", tag: tag);
+    L.d("$tag $count   data=${TimeUtil.todayTime(temp: date1)}");
     _lock.synchronized(() async {
-      L.d("lock 开始-->$count   data=${TimeUtil.todayTime(temp: date1)}",
-          tag: tag);
+      L.d("$tag lock 开始-->$count   data=${TimeUtil.todayTime(temp: date1)}");
       await Future.delayed(const Duration(seconds: 5));
       count++;
-      L.d("lock 结束-->$count   data=${TimeUtil.todayTime(temp: date1)}",
-          tag: tag);
+      L.d("$tag lock 结束-->$count   data=${TimeUtil.todayTime(temp: date1)}");
     });
   }
 }

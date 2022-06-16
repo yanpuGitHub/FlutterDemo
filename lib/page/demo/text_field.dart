@@ -1,4 +1,5 @@
 import 'package:f_demo/res/my_color.dart';
+import 'package:f_demo/res/my_string.dart';
 import 'package:f_demo/uitls/phone_patter.dart';
 import 'package:f_demo/view/check_text_box.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
 
-import 'res/my_string.dart';
 
 class LoginActivity extends StatefulWidget {
   const LoginActivity({Key? key, this.phone}) : super(key: key);

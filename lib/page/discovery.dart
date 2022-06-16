@@ -8,6 +8,14 @@ class DiscoveryPage extends StatefulWidget {
 }
 
 class _DiscoveryPage extends State<DiscoveryPage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint("instate: discovery");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

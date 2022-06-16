@@ -1,11 +1,10 @@
 import 'dart:ffi';
 
 import 'package:english_words/english_words.dart';
-import 'package:f_demo/refresh_list.dart';
-import 'package:f_demo/refresh_list2.dart';
+import 'package:f_demo/page/demo/refresh_list.dart';
+import 'package:f_demo/page/demo/text_field.dart';
 import 'package:f_demo/res/my_color.dart';
 import 'package:f_demo/res/my_string.dart';
-import 'package:f_demo/text_field.dart';
 import 'package:f_demo/uitls/num_util.dart';
 import 'package:f_demo/uitls/shared_preferences.dart';
 import 'package:f_demo/uitls/time.dart';

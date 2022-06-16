@@ -1,7 +1,6 @@
 import 'package:f_demo/page/discovery.dart';
 import 'package:f_demo/page/home.dart';
 import 'package:f_demo/page/mine.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
